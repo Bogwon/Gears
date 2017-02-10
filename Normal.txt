@@ -1,0 +1,67 @@
+Given three points (P1, P2 & P3) in 3D space, compute the normal vector (N), i.e. the vector that is perpendicular to the plane defined by the three points.
+
+The X and Y axis are in their normal configuration. X is the horizontal axis across the screen and Y is the vertical axis. Both are in the plane of the screen. The Z axis is perpendicular to the screen.
+
+Remember SOHCAHTOA: sine	= opposite over hypotenuse (Y/H)
+					cosine	= adjacent over hypotenuse (X/H)
+					tangent	= opposite over adjacent (Y/X)
+
+1. Translate the 3 points so that one of the points is the origin:
+	D1 = P1 - P3
+	D2 = P2 - P3
+	D3 = P3 - P3 = (0, 0, 0)
+	
+2. Rotate D1 around the Z axis (i.e. in the X-Y plane) so that the Y coordinate becomes 0.
+	H1 = sqrt(X1^2 + Y1^2)
+//	sin(A1) = Y1/H1
+	A1 = arcsin(Y1/H1)
+	X1 = H1
+	Y1 = 0
+	
+3. Rotate D2 around the Z axis (i.e. in the X-Y plane) a like amount (A1).
+	H2 = sqrt(X2^2 + Y2^2)
+	A = arcsin(Y2/H2)
+	AA = A - A1
+	X2 = cos(AA) x H2
+//	sin(AA) = Y2/H2
+	Y2 = sin(AA) x H2	
+	
+4. Rotate D1 around the Y axis (i.e. in the X-Z plane) so that the Z coordinate becomes 0.
+	H1 = sqrt(X1^2 + Z1^2)
+//	sin(A2) = Z1/H1
+	A2 = arcsin(Z1/H1)
+	X1 = H1
+	Z1 = 0
+	
+5. Rotate D2 around the Y axis (i.e. in the X-Z plane) a like amount (A2).
+	H2 = sqrt(X2^2 + Z2^2)
+	A = arcsin(Z2/H2)
+	AA = A - A1
+	X2 = cos(AA) x H2
+//	sin(A) = Z2/H2
+	Z2 = sin(AA) x H2	
+	
+6. Rotate D2 around the X axis (i.e. in the Y-Z plane) so that the Y coordinate becomes 0.
+	H2 = sqrt(Y2^2 + Z2^2)
+	A3 = arcsin(Z2/H2)
+	Z2 = H2
+	Y2 = 0
+	
+We now have D3 at the origin, D1 is on the X axis and D2 is in the X-Z plane, so all three points are lying in the X-Z plane, and the normal vector lines on the Y axis with coordinates (0, 1, 0). Now we apply the rotations in reverse order (and direction) to this vector and we get a vector that is perpendicular to the original plane.
+
+1. Rotate N  around the X axis (i.e. in the Y-Z plane) by -A3 degrees/radians.
+	YN = cos(A3) ( x 1)
+	ZN = sin(A3) ( x 1)
+
+2. Rotate N  around the Y axis (i.e. in the X-Z plane) by -A2 degrees/radians.
+	XN = sin(A2) x ZN
+	ZN = cos(A2) x ZN
+
+3. Rotate N  around the Z axis (i.e. in the X-Y plane) by -A1 degrees/radians.
+	HN = sqrt(XN^2 + YN^2)
+	A = arcsin(YN/HN)
+	AA  = A1 - A
+	XN = sin(AA) x HN
+	YN = cos(AA) x HN
+	
+We are done.
